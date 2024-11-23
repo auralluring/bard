@@ -1,14 +1,14 @@
-use async_mpd::MpdClient;
+use mpd_client::client::Client;
+use tokio::net::TcpStream;
 
 mod cli;
 use clap::Parser;
 
 #[tokio::main]
-async fn main() -> Result<(), async_mpd::Error> {
+async fn main() {
     let args = cli::Args::parse();
-    let mut mpd = MpdClient::new();
     let addr = format!("{}:{}", args.host, args.port);
     println!("connecting to {addr}");
-    mpd.connect(addr).await?;
-    Ok(())
+    let connection = TcpStream::connect(addr).await.unwrap();
+    let (client, _) = Client::connect(connection).await.unwrap();
 }

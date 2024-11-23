@@ -4,9 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-async-mpd = "0.6.0"
 clap = { version = "4.5.21", features = ["derive", "env"] }
 crossterm = "0.28.1"
+mpd_client = "1.4.1"
 ratatui = "0.29.0"
 rt = "0.14.0"
 tokio = { version = "1.41.1", features = ["macros", "rt-multi-thread"] }
