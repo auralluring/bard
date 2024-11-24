@@ -21,7 +21,7 @@ async fn main() {
     let (client, _) = Client::connect(connection).await.unwrap();
     println!("connected successfully");
 
-    // setup
+    // setup tui and app
     let mut terminal = setup(io::stdout()).unwrap();
     let mut app = App::init(client, args).unwrap();
 
@@ -31,7 +31,7 @@ async fn main() {
         Err(error) => println!("ERROR: {:?}", error),
     };
 
-    // destroy app (important to make sure the terminal is restored to normal)
+    // destroy tui (important to make sure the terminal is restored to normal)
     teardown(terminal).unwrap();
 }
 
