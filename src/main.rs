@@ -20,7 +20,7 @@ async fn main() {
     println!("connected successfully");
 
     // create app
-    let mut app = App::init(io::stdout(), client).unwrap();
+    let mut app = App::init(io::stdout(), client, args).unwrap();
 
     // run app (aka the actual functionality)
     match app.run() {

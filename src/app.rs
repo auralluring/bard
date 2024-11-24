@@ -4,12 +4,14 @@ use crossterm::event;
 use crossterm::{execute, terminal};
 use ratatui::{layout::Layout, prelude::*};
 
+use crate::cli::Args;
 use crate::ui::ui;
 
 pub struct App<W: io::Write> {
     pub terminal: Terminal<CrosstermBackend<W>>,
     pub layout: Layout,
-    client: mpd_client::Client,
+    pub client: mpd_client::Client,
+    pub args: Args,
 }
 
 impl<W: io::Write> App<W> {
@@ -27,7 +29,7 @@ impl<W: io::Write> App<W> {
             }
         }
     }
-    pub fn init(mut writer: W, client: mpd_client::Client) -> io::Result<Self> {
+    pub fn init(mut writer: W, client: mpd_client::Client, args: Args) -> io::Result<Self> {
         terminal::enable_raw_mode()?;
         execute!(
             writer,
@@ -39,6 +41,7 @@ impl<W: io::Write> App<W> {
             terminal: Terminal::new(backend)?,
             layout: Layout::default(),
             client,
+            args,
         })
     }
     pub fn teardown(mut self) -> io::Result<()> {
