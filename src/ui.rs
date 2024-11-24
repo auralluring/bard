@@ -3,7 +3,7 @@ use ratatui::widgets::*;
 
 use crate::app::App;
 
-pub fn ui<W: std::io::Write>(frame: &mut Frame, app: &App<W>) {
+pub fn ui(frame: &mut Frame, app: &App) {
     let title = Paragraph::new(Text::styled(
         "Hello ratatui!",
         Style::default().fg(Color::Green),
