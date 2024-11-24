@@ -2,14 +2,13 @@ use std::io;
 
 use crossterm::event;
 use crossterm::{execute, terminal};
-use ratatui::{layout::Layout, prelude::*};
+use ratatui::prelude::*;
 
 use crate::cli::Args;
 use crate::ui::ui;
 
 pub struct App<W: io::Write> {
     pub terminal: Terminal<CrosstermBackend<W>>,
-    pub layout: Layout,
     pub client: mpd_client::Client,
     pub args: Args,
 }
@@ -17,7 +16,7 @@ pub struct App<W: io::Write> {
 impl<W: io::Write> App<W> {
     pub fn run(&mut self) -> Result<(), io::Error> {
         loop {
-            self.terminal.draw(|f| ui(f))?;
+            self.terminal.draw(|f| ui(f, &app))?;
             if let event::Event::Key(key) = event::read()? {
                 if key.kind != event::KeyEventKind::Press {
                     continue;
@@ -39,7 +38,6 @@ impl<W: io::Write> App<W> {
         let backend = CrosstermBackend::new(writer);
         Ok(App {
             terminal: Terminal::new(backend)?,
-            layout: Layout::default(),
             client,
             args,
         })
