@@ -19,12 +19,15 @@ async fn main() {
     let (client, _) = Client::connect(connection).await.unwrap();
     println!("connected successfully");
 
-    // enter tui
-    let mut app = App::init(io::stdout()).unwrap();
+    // create app
+    let mut app = App::init(io::stdout(), client).unwrap();
+
+    // run app (aka the actual functionality)
     match app.run() {
         Ok(()) => {}
         Err(error) => println!("ERROR: {:?}", error),
     };
 
+    // destroy app (important to make sure the terminal is restored to normal)
     app.teardown().unwrap();
 }

@@ -9,6 +9,7 @@ use crate::ui::ui;
 pub struct App<W: io::Write> {
     pub terminal: Terminal<CrosstermBackend<W>>,
     pub layout: Layout,
+    client: mpd_client::Client,
 }
 
 impl<W: io::Write> App<W> {
@@ -26,7 +27,7 @@ impl<W: io::Write> App<W> {
             }
         }
     }
-    pub fn init(mut writer: W) -> io::Result<Self> {
+    pub fn init(mut writer: W, client: mpd_client::Client) -> io::Result<Self> {
         terminal::enable_raw_mode()?;
         execute!(
             writer,
@@ -37,6 +38,7 @@ impl<W: io::Write> App<W> {
         Ok(App {
             terminal: Terminal::new(backend)?,
             layout: Layout::default(),
+            client,
         })
     }
     pub fn teardown(mut self) -> io::Result<()> {
